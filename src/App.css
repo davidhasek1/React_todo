@@ -9,3 +9,12 @@
   border-radius: 3px;
   cursor: pointer;
 }
+
+ul {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin:auto;
+  padding-inline-start: 0px;
+
+}

@@ -1,0 +1,9 @@
+.header-container {
+    background-color: #ff0055;
+}
+
+h1 {
+  margin: 0; 
+  padding: 10px;
+  color: white;
+}

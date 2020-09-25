@@ -1,0 +1,23 @@
+.Form {
+    margin: 25px auto;
+}
+input {
+    border:none;
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+    font-size: 18px;
+    outline: none;
+}
+input:focus{
+    border-bottom: 1px solid #ff0055;
+}
+button {
+    background: none;
+    border: none;
+    outline: none;
+    margin-left: 5px;
+    cursor: pointer;
+
+    font-size: 18px;
+    color: #ff0055;
+}

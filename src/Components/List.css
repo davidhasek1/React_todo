@@ -1,0 +1,11 @@
+.listItem {
+    
+    list-style-type: none;
+    padding: 10px;
+    background-color: rgb(240, 232, 232);
+    margin:3px auto;
+    width: inherit;
+    border: 0.5px solid gray;
+    word-wrap: break-word;
+    
+}
