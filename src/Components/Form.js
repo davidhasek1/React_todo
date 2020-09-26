@@ -6,7 +6,7 @@ const Form = (props) => {
     const [input, setInput] = useState({id: '', title: ''});
 
     const submitFrom = (e) => {
-        e.preventDefault();
+        //e.preventDefault();
         props.addTodo(input);   //add todo vola funkci z app.js a ma parametr input ze stateu
     }
     return (

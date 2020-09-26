@@ -1,11 +1,16 @@
 import React from 'react';
 import './List.css';
+import DeleteBtn from './DeleteItemBtn';
 
 const List = (props) => {
+
+	const deleteAction = () => {
+		props.deleteItem();
+	}
 	return (
-		<li className="listItem" onClick={props.delete}>
-			
+		<li className="listItem">
 			{props.title}
+			<DeleteBtn delete={deleteAction} />
 		</li>
 	);
 };
