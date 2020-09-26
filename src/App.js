@@ -27,6 +27,7 @@ const App = (props) => {
 		}
 	};
 	const deleteTodo = (todoIndex) => {
+		//
 		const todos = [ ...inputArray ]; //kopie array
 		todos.splice(todoIndex, 1); //todo index z map()
 		setInputArray(todos); //set updated data
@@ -51,9 +52,9 @@ const App = (props) => {
 		//použít index je nahovno ale id math random hazej chybu při submitu jednoho inputu 2x
 		return (
 			<List
-				key={idx}
+				key={data._id}
 				/* i={idx}  */
-
+				//id={data._id}
 				title={data.todo}
 				deleteItem={() => {
 					deleteTodo(idx);

@@ -10,6 +10,7 @@ const List = (props) => {
 	return (
 		<li className="listItem">
 			{props.title}
+			{props.id}
 			<DeleteBtn delete={deleteAction} />
 		</li>
 	);
