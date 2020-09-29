@@ -18,3 +18,9 @@ ul {
   padding-inline-start: 0px;
 
 }
+.list-heading {
+  color: #ff0055;
+  text-align: center;
+  width: 30%;
+  margin-left: 30px;
+}

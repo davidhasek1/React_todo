@@ -1,5 +1,12 @@
 .Form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin: 25px auto;
+    width: 35%;
+    height: 60px;
+   /*  border: 1px solid black; */
+    box-shadow: 2px 3px 6px rgb(170, 170, 170);
 }
 input {
     border:none;

@@ -1,11 +1,19 @@
 .listItem {
     
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
     list-style-type: none;
-    padding: 10px;
-    background-color: rgb(240, 232, 232);
-    margin:3px auto;
+    padding: 15px;
+    margin:5px auto;
+    
+   /*  background-color: rgb(240, 232 232);
+     */
     width: inherit;
-    border: 0.5px solid gray;
+    /* border: 0.5px solid gray; */
+
+    box-shadow: 2px 3px 6px rgb(170, 170, 170);
     word-wrap: break-word;
     
 }

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import './Form.css';
 
 const Form = (props) => {
-    const [input, setInput] = useState({id: '', title: ''});
+    const [input, setInput] = useState({title: ''});
 
     const submitFrom = (e) => {
         //e.preventDefault();
@@ -14,8 +14,8 @@ const Form = (props) => {
             <form onSubmit={submitFrom}>
             <input type="text" name="title"
             value={input.title} 
-            onChange={e => setInput({id: Math.random(), title: e.target.value })}/>
-            <button type="submit">Send</button>
+            onChange={e => setInput({title: e.target.value })}/>
+            <button type="submit">Add todo!</button>
             </form>
         </div>
     );

@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
 import Header from './Components/Header';
 import Form from './Components/Form';
 import List from './Components/List';
+import Counter from './Components/Counter';
+import Search from './Components/Search';
 
 const App = (props) => {
 	const [ inputArray, setInputArray ] = useState([]);
@@ -26,53 +28,60 @@ const App = (props) => {
 			console.warn('fail to fetch backend');
 		}
 	};
-	const deleteTodo = (todoIndex) => {
-		//
-		const todos = [ ...inputArray ]; //kopie array
-		todos.splice(todoIndex, 1); //todo index z map()
-		setInputArray(todos); //set updated data
-		setCounter(counter - 1);
+	const deleteTodo = async (id) => {
+		console.log(id);
+		try {
+			const api = await fetch('http://localhost:8080/delete-todo/' + id, {
+				method: 'DELETE'
+			}); //post body s id
+			/* const data = */ await api.json();
+			setInputArray((prevInput) => {
+				prevInput.filter((input) => input._id !== id);
+			}); //set updated data
+			setCounter(counter - 1);
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
-	// JAk použít async await , když use affect nemuže pobrat async postfix????
-	useEffect(() => {
-		fetch('http://localhost:8080/todos')
-			.then((res) => {
-				console.log('fetched !');
-				return res.json();
-			})
-			.then((resData) => {
-				setInputArray(resData);
-				setCounter(resData.length);
-			})
-			.catch((err) => console.log(err));
+	const filteredTodosHandler = useCallback((filteredTodos, count) => {
+		console.log(count);
+		setInputArray(filteredTodos);
+		setCounter(count);
 	}, []);
+	
 
+	// JAk použít async await , když use effect nemuže pobrat async????
+	
+	useEffect(
+		() => {
+			console.log('test fetch');
+		},
+		[ inputArray ]
+	); //tento useEffect proběhne pouze, když se změní stav input array - když definuju inputArray do dependencies
+
+	
 	let listData = inputArray.map((data, idx) => {
 		//použít index je nahovno ale id math random hazej chybu při submitu jednoho inputu 2x
 		return (
 			<List
-				key={data._id}
-				/* i={idx}  */
-				//id={data._id}
-				title={data.todo}
+				key={data.id}
+				title={data.title}
 				deleteItem={() => {
-					deleteTodo(idx);
+					deleteTodo(data.id);
 				}}
 			/>
 		);
 	});
 
-	
 	//addTodo bude přidatvat tady item do pole^
 	return (
 		<div className="App">
 			<Header />
 			<Form addTodo={addToList} />
-
-			<p>
-				Tasks to do: <strong>{counter}</strong>
-			</p>
+			<Counter taskCount={counter} />
+			<Search onLoadTodos={filteredTodosHandler}/>
+			<h2 className="list-heading">Todos</h2>
 			<ul>{listData}</ul>
 		</div>
 	);

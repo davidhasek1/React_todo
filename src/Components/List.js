@@ -4,14 +4,15 @@ import DeleteBtn from './DeleteItemBtn';
 
 const List = (props) => {
 
-	const deleteAction = () => {
-		props.deleteItem();
+	const deleteAction = (id) => {
+		console.log(id);
+		props.deleteItem(id);
 	}
 	return (
 		<li className="listItem">
 			{props.title}
 			{props.id}
-			<DeleteBtn delete={deleteAction} />
+			<DeleteBtn deleteTodo={deleteAction} />
 		</li>
 	);
 };
