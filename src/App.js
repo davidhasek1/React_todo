@@ -1,17 +1,22 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import './App.css';
 import Header from './Components/Header';
 import Form from './Components/Form';
 import List from './Components/List';
 import Counter from './Components/Counter';
 import Search from './Components/Search';
+import ErrorModel from './Components/ErrorModel';
 
 const App = (props) => {
 	const [ inputArray, setInputArray ] = useState([]);
 	const [ counter, setCounter ] = useState(0);
+	const [ isLoading, setIsLoading ] = useState(false); //když isloading bude true tak se vypíše spinner ez
+
+	const [ error, setError ] = useState();
 
 	//...addto list handler funkce
 	const addToList = async (inputData) => {
+		setIsLoading(true);
 		try {
 			const api = await fetch('http://localhost:8080/post-todo', {
 				method: 'POST',
@@ -21,23 +26,28 @@ const App = (props) => {
 				}
 			});
 			await api.json();
+			setIsLoading(false);
 			setInputArray((prevInput) => [ { ...inputData }, ...prevInput ]);
 			setCounter(1 + counter);
 			console.log(counter);
 		} catch (error) {
-			console.warn('fail to fetch backend');
+			console.log('setting catch error' + error);
+			
 		}
 	};
+
 	const deleteTodo = async (id) => {
 		console.log(id);
+		setIsLoading(true);
 		try {
 			const api = await fetch('http://localhost:8080/delete-todo/' + id, {
 				method: 'DELETE'
-			}); //post body s id
-			/* const data = */ await api.json();
+			});
+			/* const data = */ await api.json(); // i dont care o data
+			setIsLoading(false);
 			setInputArray((prevInput) => {
 				prevInput.filter((input) => input._id !== id);
-			}); //set updated data
+			});
 			setCounter(counter - 1);
 		} catch (error) {
 			console.log(error);
@@ -49,20 +59,8 @@ const App = (props) => {
 		setInputArray(filteredTodos);
 		setCounter(count);
 	}, []);
-	
 
-	// JAk použít async await , když use effect nemuže pobrat async????
-	
-	useEffect(
-		() => {
-			console.log('test fetch');
-		},
-		[ inputArray ]
-	); //tento useEffect proběhne pouze, když se změní stav input array - když definuju inputArray do dependencies
-
-	
 	let listData = inputArray.map((data, idx) => {
-		//použít index je nahovno ale id math random hazej chybu při submitu jednoho inputu 2x
 		return (
 			<List
 				key={data.id}
@@ -74,13 +72,23 @@ const App = (props) => {
 		);
 	});
 
-	//addTodo bude přidatvat tady item do pole^
+	const errorHandler =useCallback((msg) => {
+		setError(msg);
+	}, [])
+	
+	const closeErrorWindow = () => {
+		setError(null);
+	}
+
 	return (
 		<div className="App">
 			<Header />
-			<Form addTodo={addToList} />
+
+			{error && <ErrorModel onClose={closeErrorWindow}>{error}</ErrorModel>}
+
+			<Form addTodo={addToList} loading={isLoading} />
 			<Counter taskCount={counter} />
-			<Search onLoadTodos={filteredTodosHandler}/>
+			<Search onLoadTodos={filteredTodosHandler} errorMsg={errorHandler} />
 			<h2 className="list-heading">Todos</h2>
 			<ul>{listData}</ul>
 		</div>
@@ -88,3 +96,11 @@ const App = (props) => {
 };
 
 export default App;
+// JAk použít async await , když use effect nemuže pobrat async???? - DEFINOVAT async funkci uvnitř fce useEffect
+	/* useEffect(() => {
+		const fetchData = () => {
+			try {
+			} catch (error) {}
+		};
+		fetchData();
+	}); */
